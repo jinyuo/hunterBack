@@ -2,12 +2,69 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<script>
+<script type="text/javascript">
+	function getContextPath() {
+		var hostIndex = location.href.indexOf(location.host) + location.host.length;
+		return location.href.substring(hostIndex, location.href.indexOf('/', hostIndex + 1) );
+	}
+	
+
+	//ROAD
 	$(function() {
-		$("[name=order]").on("change", function() {
-			$("#mailchimp-subscription-form").submit();
+		//페이지 진입 시 url 변경
+		renewURL = getContextPath() + "/funding/category/" + 0;
+		history.pushState(null, null, renewURL);
+		
+		//카테고리 선택 시		
+		$(".selectCategory").on("click", function() {
+			var categoryCode = $(this).find("input").val();
+			$.ajax({
+				url : getContextPath() + "/funding/category/" + categoryCode, // 서버요청주소
+				type : "get", // 요청방식(get | post | put | patch | delete)
+				dataType : "json", //서버가 보내온 데이터 타입
+				success : function(result) {
+					//보여주는 url 변경
+					var renewURL = location.href;
+					renewURL = getContextPath() + "/funding/category/" + categoryCode;
+					history.pushState(null, null, renewURL);
+					
+					$(".multi-row-clearfix").empty();
+					
+					$.each(result, function(index, item) {
+					alert(item.title);
+					
+					});
+				}, //성공 시
+				erorr : function(err) {
+					alert(err + " 오류 발생");
+				} //실패 시
+			});
 		});
+		//
+		
+		//정렬 선택 시
+		$("[name=order]").on("change", function() {
+			var params = "order =" + $(this).val() + "&where=" + $("[name=where]").val() + "&val=" + $("[name=val]").val();
+			$.ajax({
+				url : location.href, // 서버요청주소
+				type : "get", // 요청방식(get | post | put | patch | delete)
+				data : params,
+				dataType : "json", //서버가 보내온 데이터 타입
+				success : function(result) {					
+					$.each(result, function(index, item) {
+					$(".multi-row-clearfix").empty();
+					alert(item.title);
+					
+					});
+				}, //성공 시
+				erorr : function(err) {
+					alert(err + " 오류 발생");
+				} //실패 시
+			});
+		});
+		//
 	});
+	//ENE_ROAD
 </script>
 
 
@@ -37,89 +94,82 @@
 		<div class="container pt-40 pb-0">
 			<div class="row">
 				<div class="col-sm-3"></div>
-				<div class="form-group col-md-1">
+				<div class="form-group col-md-1" >
 					<div class="media">
-						<a class="flip" href="${pageContext.request.contextPath}/funding/category/">
+						<a class="flip selectCategory" href="#">
+							<input type="hidden" value="0">
 							<img class="media-object" width="60" src="http://placehold.it/70x80" alt="">
 						</a>
 						<div class="media-body">
 							<h5 class="media-heading product-title mb-0">
-								<a href="${pageContext.request.contextPath}/funding/category/">전체보기</a>
+								<a class="selectCategory" href="#"><input type="hidden" value="0">전체보기</a>
+							
 							</h5>
 						</div>
 					</div>
 				</div>
 				<div class="form-group col-md-1">
 					<div class="media">
-						<a class="flip"
-							href="${pageContext.request.contextPath}/funding/category/301">
-							<img class="media-object" width="60"
-							src="http://placehold.it/70x80" alt="">
+						<a class="flip selectCategory" href="#">
+							<input type="hidden" value="301">
+							<img class="media-object" width="60" src="http://placehold.it/70x80" alt="">
 						</a>
 						<div class="media-body">
 							<h5 class="media-heading product-title mb-0">
-								<a
-									href="${pageContext.request.contextPath}/funding/category/301">탁주</a>
+								<a class="selectCategory" href="#"><input type="hidden" value="301">탁주</a>
 							</h5>
 						</div>
 					</div>
 				</div>
 				<div class="form-group col-md-1">
 					<div class="media">
-						<a class="flip"
-							href="${pageContext.request.contextPath}/funding/category/302">
+						<a class="flip selectCategory" href="#">
+							<input type="hidden" value="302">
 							<img class="media-object" width="60"
 							src="http://placehold.it/70x80" alt="">
 						</a>
 						<div class="media-body">
 							<h5 class="media-heading product-title mb-0">
-								<a
-									href="${pageContext.request.contextPath}/funding/category/302">청주</a>
+								<a class="selectCategory" href="#"><input type="hidden" value="302">청주</a>
 							</h5>
 						</div>
 					</div>
 				</div>
 				<div class="form-group col-md-1">
 					<div class="media">
-						<a class="flip"
-							href="${pageContext.request.contextPath}/funding/category/303">
-							<img class="media-object" width="60"
-							src="http://placehold.it/70x80" alt="">
+						<a class="flip selectCategory" href="#">
+							<input type="hidden" value="303">
+							<img class="media-object" width="60" src="http://placehold.it/70x80" alt="">
 						</a>
 						<div class="media-body">
 							<h5 class="media-heading product-title mb-0">
-								<a
-									href="${pageContext.request.contextPath}/funding/category/303">증류주</a>
+								<a class="selectCategory" href="#"><input type="hidden" value="302">증류주</a>
 							</h5>
 						</div>
 					</div>
 				</div>
 				<div class="form-group col-md-1">
 					<div class="media">
-						<a class="flip"
-							href="${pageContext.request.contextPath}/funding/category/304">
-							<img class="media-object" width="60"
-							src="http://placehold.it/70x80" alt="">
+						<a class="flip selectCategory" href="#">
+							<input type="hidden" value="304">
+							<img class="media-object" width="60" src="http://placehold.it/70x80" alt="">
 						</a>
 						<div class="media-body">
 							<h5 class="media-heading product-title mb-0">
-								<a
-									href="${pageContext.request.contextPath}/funding/category/304">과실주</a>
+								<a class="selectCategory" href="#"><input type="hidden" value="304">과실주</a>
 							</h5>
 						</div>
 					</div>
 				</div>
 				<div class="form-group col-md-1">
 					<div class="media">
-						<a class="flip"
-							href="${pageContext.request.contextPath}/funding/category/305">
-							<img class="media-object" width="60"
-							src="http://placehold.it/70x80" alt="">
+						<a class="flip selectCategory" href="#">
+							<input type="hidden" value="305">
+							<img class="media-object" width="60" src="http://placehold.it/70x80" alt="">
 						</a>
 						<div class="media-body">
 							<h5 class="media-heading product-title mb-0">
-								<a
-									href="${pageContext.request.contextPath}/funding/category/305">와인</a>
+								<a class="selectCategory" href="#"><input type="hidden" value="305">와인</a>
 							</h5>
 						</div>
 					</div>
@@ -218,17 +268,14 @@
 					<div class="col-md-12">
 						<nav>
 							<ul class="pagination theme-colored mt-0">
-								<li><a href="#" aria-label="Previous"> <span
-										aria-hidden="true">«</span>
-								</a></li>
+								<li><a href="#" aria-label="Previous"> <span aria-hidden="true">«</span></a></li>
 								<li class="active"><a href="#">1</a></li>
 								<li><a href="#">2</a></li>
 								<li><a href="#">3</a></li>
 								<li><a href="#">4</a></li>
 								<li><a href="#">5</a></li>
 								<li><a href="#">...</a></li>
-								<li><a href="#" aria-label="Next"> <span
-										aria-hidden="true">»</span>
+								<li><a href="#" aria-label="Next"> <span aria-hidden="true">»</span>
 								</a></li>
 							</ul>
 						</nav>
