@@ -3,11 +3,41 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <script>
+	var page = 1;
 	$(function() {
 		$("[name=order]").on("change", function() {
 			$("#mailchimp-subscription-form").submit();
 		});
+		
+		$(window).scroll(function() {
+			let $window = $(this);
+            let scrollTop = $window.scrollTop();
+            let windowHeight = $window.height();
+            let documentHeight = $(document).height();
+            
+            //console.log("documentHeight:" + documentHeight + " | scrollTop:" + scrollTop + " | windowHeight: " + windowHeight );
+            
+            if(scrollTop + windowHeight + 30 > documentHeight){
+            	console.log(page++);
+            	//fetchList();            	
+            }
+		});
+		//fetchList();
 	});
+	
+	/* let fetchList = function () {
+		if(isEnd == true)
+			return;
+		
+		 $.ajax({
+			url : ,
+			data : ,
+			dataType : ,
+			success : ,
+			error : 
+		});
+	}; */
+	
 </script>
 
 
