@@ -20,4 +20,9 @@ public class HomeController {
 		
 		return "main/mainPage";
 	}
+	
+	@RequestMapping("/webpushing")
+	public String pushing() {
+		return "messaging/push";
+	}
 }

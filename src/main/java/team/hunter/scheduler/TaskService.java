@@ -11,7 +11,7 @@ public class TaskService {
 	@Autowired
 	private FundingService fundingService;
 	
-	//@Scheduled(cron = "0 0/30 0 * * *")
+	@Scheduled(cron = "0 0/10 * * * *")
 	// @Scheduled(cron="1 0 0 * * *")//매일 0시 0분 1초에 실행
 	public void TestScheduler() {
 		System.out.println("call updateFunding");
